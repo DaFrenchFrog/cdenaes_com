@@ -1,0 +1,13 @@
+# Fichiers système
+.DS_Store
+*.zip
+
+# Fichiers de configuration locaux
+.shopify/
+
+# Logs
+*.log
+
+# Fichiers temporaires
+*.tmp
+*.temp
