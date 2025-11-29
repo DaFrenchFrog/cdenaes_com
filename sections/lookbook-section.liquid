@@ -1,0 +1,234 @@
+<div class="section-background color-{{ section.settings.color_scheme }}"></div>
+<div
+  class="section section--{{ section.settings.section_width }} color-{{ section.settings.color_scheme }} spacing-style"
+  style="{% render 'spacing-style', settings: section.settings %}"
+>
+  <div
+    class="lookbook-section__container"
+    style="--gap: {{ section.settings.gap }}px;"
+  >
+    {% for block in section.blocks %}
+      {% liquid
+        assign is_landscape = false
+        if forloop.first and block.settings.image_ratio == 'landscape'
+          assign is_landscape = true
+        endif
+      %}
+      <div
+        class="lookbook-section__item{% if section.blocks.size == 2 %} lookbook-section__item--half{% endif %}{% if is_landscape %} lookbook-section__item--landscape{% endif %}"
+        {{ block.shopify_attributes }}
+      >
+        {% if block.settings.image != blank %}
+          <div class="lookbook-section__image-wrapper">
+            {{
+              block.settings.image
+              | image_url: width: 2000
+              | image_tag:
+                loading: 'lazy',
+                widths: '375, 550, 750, 1100, 1500, 2000',
+                sizes: '(min-width: 750px) 50vw, 100vw',
+                alt: block.settings.image.alt | default: block.settings.title,
+                class: 'lookbook-section__image'
+              }}
+          </div>
+        {% endif %}
+
+        {% if block.settings.title != blank %}
+          <div class="lookbook-section__title">
+            <h2 class="lookbook-section__title-text">{{ block.settings.title }}</h2>
+          </div>
+        {% endif %}
+      </div>
+    {% endfor %}
+  </div>
+</div>
+
+{% stylesheet %}
+  .lookbook-section__container {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap, 16px);
+    width: 100%;
+  }
+
+  .lookbook-section__item {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: var(--padding-md, 16px);
+  }
+
+  .lookbook-section__image-wrapper {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .lookbook-section__image {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+  }
+
+  .lookbook-section__item--landscape .lookbook-section__image-wrapper {
+    aspect-ratio: 16 / 9;
+  }
+
+  .lookbook-section__item:not(.lookbook-section__item--landscape) .lookbook-section__image-wrapper {
+    aspect-ratio: 3 / 4;
+  }
+
+  .lookbook-section__title {
+    width: 100%;
+  }
+
+  .lookbook-section__title-text {
+    margin: 0;
+    font-size: var(--font-size-h3, 1.5rem);
+    font-weight: var(--font-weight-normal, 400);
+    line-height: var(--line-height-normal, 1.5);
+  }
+
+  @media screen and (min-width: 750px) {
+    .lookbook-section__container {
+      flex-direction: row;
+    }
+
+    .lookbook-section__item--half {
+      width: calc(50% - (var(--gap, 16px) / 2));
+      flex: 0 0 calc(50% - (var(--gap, 16px) / 2));
+    }
+
+    .lookbook-section__item--landscape .lookbook-section__image-wrapper {
+      aspect-ratio: 16 / 9;
+    }
+
+    .lookbook-section__item--half:not(.lookbook-section__item--landscape) .lookbook-section__image-wrapper {
+      aspect-ratio: 3 / 4;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Lookbook Section",
+  "tag": "section",
+  "class": "section-wrapper",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Section width",
+      "options": [
+        {
+          "value": "page-width",
+          "label": "Page width"
+        },
+        {
+          "value": "full-width",
+          "label": "Full width"
+        }
+      ],
+      "default": "page-width"
+    },
+    {
+      "type": "range",
+      "id": "gap",
+      "label": "Gap between items",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "header",
+      "content": "Appearance"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "Top padding",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 40
+    }
+  ],
+  "blocks": [
+    {
+      "type": "lookbook_item",
+      "name": "Lookbook Item",
+      "limit": 2,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image",
+          "info": "Required"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "info": "Optional title displayed below the image"
+        },
+        {
+          "type": "select",
+          "id": "image_ratio",
+          "label": "Image ratio",
+          "options": [
+            {
+              "value": "portrait",
+              "label": "Portrait"
+            },
+            {
+              "value": "landscape",
+              "label": "Landscape"
+            }
+          ],
+          "default": "portrait",
+          "info": "Only applies to the first item"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Lookbook Section",
+      "blocks": [
+        {
+          "type": "lookbook_item"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
