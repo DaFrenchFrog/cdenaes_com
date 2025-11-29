@@ -1,80 +1,70 @@
 
 
 {% liquid
-  assign media_count = 0
-  if section.settings.image_1 != blank and section.settings.image_2 != blank
-    assign media_width_desktop = 100 | divided_by: 2 | append: 'vw'
-  else
-    assign media_width_desktop = '100vw'
-  endif
+  assign media_width_desktop = '100vw'
   assign media_width_mobile = '100vw'
-  assign sizes = '(min-width: 750px) ' | append: media_width_desktop | append: ', ' | append: media_width_mobile
+  assign sizes_desktop = '(min-width: 750px) ' | append: media_width_desktop | append: ', ' | append: media_width_mobile
+  assign sizes_mobile = media_width_mobile
   assign widths = '832, 1200, 1600, 1920, 2560, 3840'
 
-  assign has_image_1 = false
-  assign has_image_2 = false
-  assign has_video_1 = false
-  assign has_video_2 = false
+  assign has_image_desktop = false
+  assign has_image_mobile = false
+  assign has_video_desktop = false
+  assign has_video_mobile = false
   assign has_image = false
   assign has_video = false
-  assign has_video_multiple = false
   assign has_media = false
-  assign media_type_1 = section.settings.media_type_1
-  assign media_type_2 = section.settings.media_type_2
-  if section.settings.image_1 != blank and media_type_1 == 'image'
-    assign has_image_1 = true
+  assign media_type_desktop = section.settings.media_type_desktop
+  assign media_type_mobile = section.settings.media_type_mobile
+  
+  if section.settings.image_desktop != blank and media_type_desktop == 'image'
+    assign has_image_desktop = true
   endif
-  if section.settings.image_2 != blank and media_type_2 == 'image'
-    assign has_image_2 = true
+  if section.settings.image_mobile != blank and media_type_mobile == 'image'
+    assign has_image_mobile = true
   endif
-  if section.settings.video_1 != blank and media_type_1 == 'video'
-    assign has_video_1 = true
+  if section.settings.video_desktop != blank and media_type_desktop == 'video'
+    assign has_video_desktop = true
   endif
-  if section.settings.video_2 != blank and media_type_2 == 'video'
-    assign has_video_2 = true
+  if section.settings.video_mobile != blank and media_type_mobile == 'video'
+    assign has_video_mobile = true
   endif
 
-  if has_image_1 or has_image_2
+  if has_image_desktop or has_image_mobile
     assign has_image = true
   endif
-  if has_video_1 or has_video_2
+  if has_video_desktop or has_video_mobile
     assign has_video = true
-  endif
-  if media_type_1 == 'video' and media_type_2 == 'video'
-    assign has_video_multiple = true
   endif
   if has_image or has_video
     assign has_media = true
   endif
 
   assign fetch_priority = 'auto'
-
   if section.index == 1
     assign fetch_priority = 'high'
   endif
 %}
 
 {% capture media %}
-  {%- if has_image_1 -%}
-    {% assign media_count = media_count | plus: 1 %}
+  {%- if has_image_desktop -%}
     {{
-      section.settings.image_1
+      section.settings.image_desktop
       | image_url: width: 3840
       | image_tag:
-        width: section.settings.image_1.width,
+        width: section.settings.image_desktop.width,
         widths: widths,
-        height: section.settings.image_1.height,
-        alt: section.settings.image_1.alt,
-        class: 'hero__image',
-        sizes: sizes,
+        height: section.settings.image_desktop.height,
+        alt: section.settings.image_desktop.alt,
+        class: 'hero__image hero__image--desktop',
+        sizes: sizes_desktop,
         fetchpriority: fetch_priority
     }}
   {%- endif -%}
 
-  {%- if has_video_1 -%}
-    {% assign media_count = media_count | plus: 1 %}
-    <div class="hero__video-wrapper">
-      {%- if section.settings.video_1.preview_image -%}
+  {%- if has_video_desktop -%}
+    <div class="hero__video-wrapper hero__video-wrapper--desktop">
+      {%- if section.settings.video_desktop.preview_image -%}
         {% liquid
           assign fetch_priority_poster = false
           if section.index == 1
@@ -82,20 +72,20 @@
           endif
         %}
         {{
-          section.settings.video_1.preview_image
+          section.settings.video_desktop.preview_image
           | image_url: width: 3840
           | image_tag:
-            width: section.settings.video_1.preview_image.width,
+            width: section.settings.video_desktop.preview_image.width,
             widths: widths,
-            height: section.settings.video_1.preview_image.height,
-            alt: section.settings.video_1.alt,
+            height: section.settings.video_desktop.preview_image.height,
+            alt: section.settings.video_desktop.alt,
             class: 'hero__video-poster',
-            sizes: sizes,
+            sizes: sizes_desktop,
             fetchpriority: fetch_priority_poster
         }}
       {%- endif -%}
       {{
-        section.settings.video_1
+        section.settings.video_desktop
         | video_tag:
           poster: nil,
           autoplay: true,
@@ -107,40 +97,77 @@
     </div>
   {%- endif -%}
 
-  {%- if has_image_2 -%}
-    {% assign media_count = media_count | plus: 1 %}
+  {%- if has_image_mobile -%}
     {{
-      section.settings.image_2
+      section.settings.image_mobile
       | image_url: width: 3840
       | image_tag:
-        width: section.settings.image_2.width,
+        width: section.settings.image_mobile.width,
         widths: widths,
-        height: section.settings.image_2.height,
-        alt: section.settings.image_2.alt,
-        class: 'hero__image',
-        sizes: sizes,
+        height: section.settings.image_mobile.height,
+        alt: section.settings.image_mobile.alt,
+        class: 'hero__image hero__image--mobile',
+        sizes: sizes_mobile,
+        fetchpriority: fetch_priority
+    }}
+  {%- elsif has_image_desktop -%}
+    {{
+      section.settings.image_desktop
+      | image_url: width: 3840
+      | image_tag:
+        width: section.settings.image_desktop.width,
+        widths: widths,
+        height: section.settings.image_desktop.height,
+        alt: section.settings.image_desktop.alt,
+        class: 'hero__image hero__image--mobile',
+        sizes: sizes_mobile,
         fetchpriority: fetch_priority
     }}
   {%- endif -%}
 
-  {%- if has_video_2 -%}
-    {% assign media_count = media_count | plus: 1 %}
-    <div class="hero__video-wrapper">
-      {%- if section.settings.video_2.preview_image -%}
+  {%- if has_video_mobile -%}
+    <div class="hero__video-wrapper hero__video-wrapper--mobile">
+      {%- if section.settings.video_mobile.preview_image -%}
         {{
-          section.settings.video_2.preview_image
+          section.settings.video_mobile.preview_image
           | image_url: width: 3840
           | image_tag:
-            width: section.settings.video_2.preview_image.width,
+            width: section.settings.video_mobile.preview_image.width,
             widths: widths,
-            height: section.settings.video_2.preview_image.height,
-            alt: section.settings.video_2.alt,
+            height: section.settings.video_mobile.preview_image.height,
+            alt: section.settings.video_mobile.alt,
             class: 'hero__video-poster',
-            sizes: sizes
+            sizes: sizes_mobile
         }}
       {%- endif -%}
       {{
-        section.settings.video_2
+        section.settings.video_mobile
+        | video_tag:
+          poster: nil,
+          autoplay: true,
+          loop: true,
+          controls: false,
+          muted: true,
+          class: 'hero__video'
+      }}
+    </div>
+  {%- elsif has_video_desktop -%}
+    <div class="hero__video-wrapper hero__video-wrapper--mobile">
+      {%- if section.settings.video_desktop.preview_image -%}
+        {{
+          section.settings.video_desktop.preview_image
+          | image_url: width: 3840
+          | image_tag:
+            width: section.settings.video_desktop.preview_image.width,
+            widths: widths,
+            height: section.settings.video_desktop.preview_image.height,
+            alt: section.settings.video_desktop.alt,
+            class: 'hero__video-poster',
+            sizes: sizes_mobile
+        }}
+      {%- endif -%}
+      {{
+        section.settings.video_desktop
         | video_tag:
           poster: nil,
           autoplay: true,
@@ -158,30 +185,29 @@
 {% endcapture %}
 
 {% capture media_blurred %}
-  {% if has_image_1 %}
+  {% if has_image_desktop %}
     {{
-      section.settings.image_1
+      section.settings.image_desktop
       | image_url: width: 3840
       | image_tag:
-        width: section.settings.image_1.width,
+        width: section.settings.image_desktop.width,
         widths: widths,
-        height: section.settings.image_1.height,
+        height: section.settings.image_desktop.height,
         alt: '',
-        class: 'hero__image',
-        sizes: sizes
+        class: 'hero__image hero__image--desktop',
+        sizes: sizes_desktop
     }}
-  {% endif %}
-  {% if has_image_2 %}
+  {% elsif has_image_mobile %}
     {{
-      section.settings.image_2
+      section.settings.image_mobile
       | image_url: width: 3840
       | image_tag:
-        width: section.settings.image_2.width,
+        width: section.settings.image_mobile.width,
         widths: widths,
-        height: section.settings.image_2.height,
+        height: section.settings.image_mobile.height,
         alt: '',
-        class: 'hero__image',
-        sizes: sizes
+        class: 'hero__image hero__image--mobile',
+        sizes: sizes_mobile
     }}
   {% endif %}
   {% if has_media == false %}
@@ -208,12 +234,12 @@
   {% if request.visual_preview_mode %}
     data-shopify-visual-preview
   {% endif %}
-  {% if section.settings.blurred_reflection and has_video_multiple == false %}
+  {% if section.settings.blurred_reflection and has_video == false %}
     data-blur-shadow="true"
   {% endif %}
 >
   {% if section.settings.blurred_reflection %}
-    {% unless has_video_multiple %}
+    {% unless has_video %}
       <div class="hero__blurred-image">
         {{ media_blurred }}
       </div>
@@ -240,7 +266,7 @@
     {%- endif -%}
     <div
       class="hero__media-wrapper"
-      style="--hero-media-count: {{ media_count }};{%- if section.settings.image_1 != blank -%} --hero-media-aspect-ratio: {{ section.settings.image_1.aspect_ratio }};{% endif %}"
+      style="{%- if section.settings.image_desktop != blank -%} --hero-media-aspect-ratio: {{ section.settings.image_desktop.aspect_ratio }};{% elsif section.settings.image_mobile != blank -%} --hero-media-aspect-ratio: {{ section.settings.image_mobile.aspect_ratio }};{% endif %}"
     >
       {% liquid
         if section.settings.toggle_overlay
@@ -320,7 +346,29 @@
     inset: 0;
     display: grid;
     grid-column: 1 / -1;
-    grid-template-columns: repeat(var(--hero-media-count, 1), 1fr);
+    grid-template-columns: 1fr;
+  }
+
+  .hero__image--desktop,
+  .hero__video-wrapper--desktop {
+    display: none;
+  }
+
+  .hero__image--mobile,
+  .hero__video-wrapper--mobile {
+    display: block;
+  }
+
+  @media screen and (min-width: 750px) {
+    .hero__image--desktop,
+    .hero__video-wrapper--desktop {
+      display: block;
+    }
+
+    .hero__image--mobile,
+    .hero__video-wrapper--mobile {
+      display: none;
+    }
   }
 
   .hero--auto .hero__image,
@@ -473,8 +521,12 @@
       "content": "t:content.media"
     },
     {
+      "type": "header",
+      "content": "Desktop"
+    },
+    {
       "type": "select",
-      "id": "media_type_1",
+      "id": "media_type_desktop",
       "label": "t:settings.type",
       "options": [
         {
@@ -490,23 +542,23 @@
     },
     {
       "type": "image_picker",
-      "id": "image_1",
+      "id": "image_desktop",
       "label": "t:settings.image",
-      "visible_if": "{{ section.settings.media_type_1 == 'image' }}"
+      "visible_if": "{{ section.settings.media_type_desktop == 'image' }}"
     },
     {
       "type": "video",
-      "id": "video_1",
+      "id": "video_desktop",
       "label": "t:settings.video",
-      "visible_if": "{{ section.settings.media_type_1 == 'video' }}"
+      "visible_if": "{{ section.settings.media_type_desktop == 'video' }}"
     },
     {
       "type": "header",
-      "content": "t:content.media_2"
+      "content": "Mobile"
     },
     {
       "type": "select",
-      "id": "media_type_2",
+      "id": "media_type_mobile",
       "label": "t:settings.type",
       "options": [
         {
@@ -522,15 +574,15 @@
     },
     {
       "type": "image_picker",
-      "id": "image_2",
+      "id": "image_mobile",
       "label": "t:settings.image",
-      "visible_if": "{{ section.settings.media_type_2 == 'image' }}"
+      "visible_if": "{{ section.settings.media_type_mobile == 'image' }}"
     },
     {
       "type": "video",
-      "id": "video_2",
+      "id": "video_mobile",
       "label": "t:settings.video",
-      "visible_if": "{{ section.settings.media_type_2 == 'video' }}"
+      "visible_if": "{{ section.settings.media_type_mobile == 'video' }}"
     },
     {
       "type": "header",
@@ -805,7 +857,7 @@
       "label": "t:settings.blurred_reflection",
       "default": false,
       "info": "t:info.applies_on_image_only",
-      "visible_if": "{{ section.settings.media_type_1 != 'video' or section.settings.media_type_2 != 'video' }}"
+      "visible_if": "{{ section.settings.media_type_desktop != 'video' and section.settings.media_type_mobile != 'video' }}"
     },
     {
       "type": "range",
@@ -816,7 +868,7 @@
       "step": 1,
       "unit": "%",
       "default": 75,
-      "visible_if": "{{ section.settings.blurred_reflection and section.settings.media_type_1 != 'video' or section.settings.media_type_2 != 'video' }}"
+      "visible_if": "{{ section.settings.blurred_reflection and section.settings.media_type_desktop != 'video' and section.settings.media_type_mobile != 'video' }}"
     },
     {
       "type": "header",
@@ -1084,7 +1136,7 @@
       },
       "block_order": ["group_main"],
       "settings": {
-        "media_type_1": "image",
+        "media_type_desktop": "image",
         "horizontal_alignment_flex_direction_column": "center",
         "vertical_alignment_flex_direction_column": "flex-end",
         "gap": 16,
