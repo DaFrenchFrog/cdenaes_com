@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "hero_iyt6zg": {
@@ -30,11 +39,14 @@
           "blocks": {}
         }
       },
-      "block_order": ["text_tzGazA"],
+      "block_order": [
+        "text_tzGazA"
+      ],
       "settings": {
-        "media_type_1": "image",
-        "image_1": "shopify://shop_images/250702_COLOMBEDENAES_08_1140.jpg",
-        "media_type_2": "image",
+        "media_type_desktop": "image",
+        "image_desktop": "shopify://shop_images/Capture_d_ecran_2025-11-28_a_22.57.52.png",
+        "media_type_mobile": "image",
+        "image_mobile": "shopify://shop_images/2025_series.jpg",
         "link": "shopify://collections/all",
         "open_in_new_tab": false,
         "content_direction": "column",
@@ -65,7 +77,9 @@
         "link": {
           "type": "_collection-link",
           "static": true,
-          "settings": { "show_count": false },
+          "settings": {
+            "show_count": false
+          },
           "blocks": {
             "title": {
               "type": "_inline-collection-title",
@@ -176,7 +190,9 @@
               "blocks": {}
             }
           },
-          "block_order": ["product_list_text_zR8Cq9"]
+          "block_order": [
+            "product_list_text_zR8Cq9"
+          ]
         },
         "static-product-card": {
           "type": "_product-card",
@@ -337,7 +353,10 @@
                       "blocks": {}
                     }
                   },
-                  "block_order": ["product_title_iRxawi", "price_4XkbjB"]
+                  "block_order": [
+                    "product_title_iRxawi",
+                    "price_4XkbjB"
+                  ]
                 },
                 "group_cPyTRf": {
                   "type": "_product-card-group",
@@ -392,13 +411,21 @@
                       "blocks": {}
                     }
                   },
-                  "block_order": ["swatches_tGqDq9"]
+                  "block_order": [
+                    "swatches_tGqDq9"
+                  ]
                 }
               },
-              "block_order": ["group_KJDaTQ", "group_cPyTRf"]
+              "block_order": [
+                "group_KJDaTQ",
+                "group_cPyTRf"
+              ]
             }
           },
-          "block_order": ["product_card_gallery_4y78ah", "group_JHtHYm"]
+          "block_order": [
+            "product_card_gallery_4y78ah",
+            "group_JHtHYm"
+          ]
         }
       },
       "name": "Featured collection",
