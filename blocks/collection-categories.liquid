@@ -1,0 +1,169 @@
+{% comment %} Collection categories navigation {% endcomment %}
+{% if block.settings.show_collection_categories %}
+  <div class="collection-categories-wrapper">
+    <nav class="collection-categories" aria-label="Collection categories">
+      <ul class="collection-categories__list">
+        {% comment %} Link to show all products {% endcomment %}
+        {% if block.settings.show_all_products_link %}
+          <li class="collection-categories__item">
+            {% if collection.handle == 'all' %}
+              <span
+                class="collection-categories__link collection-categories__link--active"
+                aria-current="page"
+              >
+                {{ block.settings.all_products_label | default: 'All products' }}
+                {% if block.settings.show_product_count %}
+                  <span class="collection-categories__count">({{ collections.all.products_count }})</span>
+                {% endif %}
+              </span>
+            {% else %}
+              <a
+                href="{{ collections.all.url }}"
+                class="collection-categories__link"
+              >
+                {{ block.settings.all_products_label | default: 'All products' }}
+                {% if block.settings.show_product_count %}
+                  <span class="collection-categories__count">({{ collections.all.products_count }})</span>
+                {% endif %}
+              </a>
+            {% endif %}
+          </li>
+        {% endif %}
+
+        {% for collection_item in collections %}
+          {% unless collection_item.handle == 'all' or collection_item.handle == 'homepage' or collection_item.handle == 'frontpage' or collection_item.products_count == 0 %}
+            <li class="collection-categories__item">
+              {% if collection.id == collection_item.id %}
+                <span
+                  class="collection-categories__link collection-categories__link--active"
+                  aria-current="page"
+                >
+                  {{ collection_item.title }}
+                  {% if block.settings.show_product_count %}
+                    <span class="collection-categories__count">({{ collection_item.products_count }})</span>
+                  {% endif %}
+                </span>
+              {% else %}
+                <a
+                  href="{{ collection_item.url }}"
+                  class="collection-categories__link"
+                >
+                  {{ collection_item.title }}
+                  {% if block.settings.show_product_count %}
+                    <span class="collection-categories__count">({{ collection_item.products_count }})</span>
+                  {% endif %}
+                </a>
+              {% endif %}
+            </li>
+          {% endunless %}
+        {% endfor %}
+      </ul>
+    </nav>
+  </div>
+{% endif %}
+
+{% stylesheet %}
+  /* Collection categories navigation */
+  .collection-categories-wrapper {
+    width: 100%;
+  }
+
+  .collection-categories {
+    margin-bottom: var(--padding-lg, 24px);
+  }
+
+  .collection-categories__list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--gap-md, 16px);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    justify-content: center;
+  }
+
+  .collection-categories__item {
+    margin: 0;
+  }
+
+  .collection-categories__link {
+    display: inline-block;
+    padding: var(--padding-xs, 8px) var(--padding-md, 16px);
+    color: var(--color-foreground);
+    text-decoration: none;
+    transition: all var(--animation-speed, 0.2s) ease;
+    background-color: transparent;
+  }
+
+  .collection-categories__link:hover {
+    opacity: 0.3;
+  }
+
+  .collection-categories__link--active {
+    text-decoration: underline;
+    cursor: default;
+    pointer-events: none;
+  }
+
+  .collection-categories__count {
+    font-size: 0.9em;
+    opacity: 0.7;
+    margin-left: 4px;
+  }
+
+  .collection-categories__link--active .collection-categories__count {
+    opacity: 0.9;
+  }
+
+  @media screen and (max-width: 749px) {
+    .collection-categories__list {
+      gap: 0;
+      justify-content: flex-start;
+    }
+
+    .collection-categories__link {
+      padding: var(--padding-xs, 8px) var(--padding-sm, 12px);
+      font-size: 0.9em;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Collection categories",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_collection_categories",
+      "label": "Show collection categories",
+      "default": true,
+      "info": "Display a list of all collections to filter products"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_all_products_link",
+      "label": "Show 'All products' link",
+      "default": true,
+      "visible_if": "{{ block.settings.show_collection_categories == true }}",
+      "info": "Display a link to show all products from all collections"
+    },
+    {
+      "type": "text",
+      "id": "all_products_label",
+      "label": "All products label",
+      "default": "All products",
+      "visible_if": "{{ block.settings.show_all_products_link == true }}",
+      "info": "Text to display for the 'all products' link"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_product_count",
+      "label": "Show product count",
+      "default": true,
+      "visible_if": "{{ block.settings.show_collection_categories == true }}",
+      "info": "Display the number of products in each collection"
+    }
+  ]
+}
+{% endschema %}
+
