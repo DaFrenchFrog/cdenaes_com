@@ -1,0 +1,173 @@
+{% comment %} Denaes Visual Section {% endcomment %}
+{% liquid
+assign image_1 = section.settings.image_1
+assign image_2 = section.settings.image_2
+assign title_1 = section.settings.title_1
+assign title_2 = section.settings.title_2
+assign has_two_images = false
+
+if image_1 != blank and image_2 != blank
+assign has_two_images = true
+endif
+%}
+
+<div class="d-visual__container{% if has_two_images %} d-visual__container--two-items{% endif %}"
+  style="--gap: {{ section.settings.gap }}px;" {{ section.shopify_attributes }}>
+  {% comment %} First image {% endcomment %}
+  {% if image_1 != blank %}
+  <div
+    class="d-visual__item{% if has_two_images %} d-visual__item--half{% endif %}">
+    <div class="d-visual__image-wrapper">
+      <img 
+        src="{{ image_1 | image_url: width: 2000 }}" 
+        alt="{{ image_1.alt | default: title_1 }}" 
+        class="d-visual__image"
+        width="{{ image_1.width | default: 2000 }}"
+        height="{{ image_1.height | default: 2667 }}"
+        loading="lazy"
+      />
+    </div>
+
+    {% if title_1 != blank %}
+    <div class="d-visual__title">
+      <h2 class="d-visual__title-text">{{ title_1 }}</h2>
+    </div>
+    {% endif %}
+  </div>
+  {% endif %}
+
+  {% comment %} Second image {% endcomment %}
+  {% if image_2 != blank %}
+  <div class="d-visual__item{% if has_two_images %} d-visual__item--half{% endif %}">
+    <div class="d-visual__image-wrapper">
+      <img 
+        src="{{ image_2 | image_url: width: 2000 }}" 
+        alt="{{ image_2.alt | default: title_2 }}" 
+        class="d-visual__image"
+        width="{{ image_2.width | default: 2000 }}"
+        height="{{ image_2.height | default: 2667 }}"
+        loading="lazy"
+      />
+    </div>
+
+    {% if title_2 != blank %}
+    <div class="d-visual__title">
+      <h2 class="d-visual__title-text">{{ title_2 }}</h2>
+    </div>
+    {% endif %}
+  </div>
+  {% endif %}
+</div>
+
+{% stylesheet %}
+.d-visual__container {
+display: flex;
+flex-direction: column;
+gap: var(--gap, 16px);
+width: 100%;
+margin: 3rem 0;
+}
+
+.d-visual__item {
+width: 100%;
+display: flex;
+flex-direction: column;
+gap: var(--padding-md, 16px);
+}
+
+.d-visual__image-wrapper {
+width: 100%;
+overflow: hidden;
+position: relative;
+}
+
+.d-visual__image {
+width: 100%;
+height: auto;
+display: block;
+object-fit: cover;
+}
+
+.d-visual__title {
+width: 100%;
+}
+
+.d-visual__title-text {
+margin: 0;
+font-size: 1rem;
+font-weight: var(--font-weight-normal, 400);
+line-height: var(--line-height-normal, 1.5);
+}
+
+@media screen and (min-width: 750px) {
+.d-visual__container--two-items {
+flex-direction: row;
+}
+
+.d-visual__item--half {
+width: calc(50% - (var(--gap, 16px) / 2));
+flex: 0 0 calc(50% - (var(--gap, 16px) / 2));
+}
+}
+{% endstylesheet %}
+
+{% schema %}
+{
+"name": "Denaes Visual",
+"settings": [
+{
+"type": "header",
+"content": "First Image"
+},
+{
+"type": "image_picker",
+"id": "image_1",
+"label": "Image 1",
+"info": "Required"
+},
+{
+"type": "text",
+"id": "title_1",
+"label": "Title 1",
+"info": "Optional title displayed below the first image"
+},
+{
+"type": "header",
+"content": "Second Image (Optional)"
+},
+{
+"type": "image_picker",
+"id": "image_2",
+"label": "Image 2",
+"info": "Optional second image. If added, images will be displayed side by side on desktop."
+},
+{
+"type": "text",
+"id": "title_2",
+"label": "Title 2",
+"info": "Optional title displayed below the second image"
+},
+{
+"type": "header",
+"content": "Layout"
+},
+{
+"type": "range",
+"id": "gap",
+"label": "Gap between images",
+"min": 0,
+"max": 100,
+"step": 4,
+"unit": "px",
+"default": 16,
+"info": "Only applies when two images are added"
+}
+  ],
+  "presets": [
+    {
+      "name": "Denaes Visual"
+    }
+  ]
+}
+{% endschema %}
+

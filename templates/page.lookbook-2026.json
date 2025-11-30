@@ -1,0 +1,91 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "blocks": {
+        "heading": {
+          "type": "text",
+          "name": "Title",
+          "settings": {
+            "text": "<h1>{{ closest.page.title }}</h1>",
+            "width": "100%",
+            "max_width": "normal",
+            "alignment": "left",
+            "type_preset": "h2",
+            "font": "var(--font-body--family)",
+            "font_size": "1rem",
+            "line_height": "normal",
+            "letter_spacing": "normal",
+            "case": "none",
+            "wrap": "pretty",
+            "color": "var(--color-foreground)",
+            "background": false,
+            "background_color": "#00000026",
+            "corner_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "heading"
+      ],
+      "settings": {
+        "content_direction": "column",
+        "gap": 32,
+        "color_scheme": "",
+        "padding-block-start": 40,
+        "padding-block-end": 80
+      }
+    },
+    "denaes_visual_abDTfY": {
+      "type": "denaes-visual",
+      "name": "Denaes Visual",
+      "settings": {
+        "image_1": "shopify://shop_images/Capture_d_ecran_2025-11-28_a_22.57.52.png",
+        "title_1": "#1",
+        "title_2": "",
+        "gap": 16
+      }
+    },
+    "denaes_visual_gEx3Jf": {
+      "type": "denaes-visual",
+      "name": "Denaes Visual",
+      "settings": {
+        "image_1": "shopify://shop_images/Capture_d_ecran_2025-11-27_a_19.08.43.png",
+        "title_1": "#1",
+        "title_2": "",
+        "gap": 16
+      }
+    },
+    "denaes_visual_njzCTQ": {
+      "type": "denaes-visual",
+      "name": "Denaes Visual",
+      "settings": {
+        "image_1": "shopify://shop_images/2025_series.jpg",
+        "title_1": "#2",
+        "image_2": "shopify://shop_images/web-cover.jpg",
+        "title_2": "#3",
+        "gap": 16
+      }
+    }
+  },
+  "order": [
+    "main",
+    "denaes_visual_abDTfY",
+    "denaes_visual_gEx3Jf",
+    "denaes_visual_njzCTQ"
+  ]
+}
