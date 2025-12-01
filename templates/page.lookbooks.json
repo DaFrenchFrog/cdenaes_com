@@ -171,13 +171,13 @@
               },
               "blocks": {}
             },
-            "button_aCdXtB": {
+            "button_6arXRE": {
               "type": "button",
               "settings": {
                 "label": "Discover",
-                "link": "shopify://pages/lookbook-2025",
+                "link": "shopify://pages/lookbook",
                 "open_in_new_tab": false,
-                "style_class": "button",
+                "style_class": "button-secondary",
                 "width": "fit-content",
                 "custom_width": 100,
                 "width_mobile": "fit-content",
@@ -189,7 +189,7 @@
           "block_order": [
             "text_DfeELf",
             "text_A8chcr",
-            "button_aCdXtB"
+            "button_6arXRE"
           ]
         }
       },
@@ -210,7 +210,7 @@
         "section_width": "page-width",
         "section_height": "",
         "section_height_custom": 50,
-        "color_scheme": "",
+        "color_scheme": "scheme-2",
         "background_media": "none",
         "video_position": "cover",
         "background_image_position": "cover",
@@ -341,13 +341,14 @@
               },
               "blocks": {}
             },
-            "button_9bCT7L": {
+            "button_MxdXXE": {
               "type": "button",
+              "name": "t:names.button",
               "settings": {
-                "label": "Discover",
-                "link": "shopify://pages/lookbook",
+                "label": "Shop now",
+                "link": "shopify://collections/all",
                 "open_in_new_tab": false,
-                "style_class": "button",
+                "style_class": "button-secondary",
                 "width": "fit-content",
                 "custom_width": 100,
                 "width_mobile": "fit-content",
@@ -359,7 +360,7 @@
           "block_order": [
             "text_Dzkm8V",
             "text_iFaeAJ",
-            "button_9bCT7L"
+            "button_MxdXXE"
           ]
         }
       },
@@ -380,7 +381,7 @@
         "section_width": "page-width",
         "section_height": "",
         "section_height_custom": 50,
-        "color_scheme": "",
+        "color_scheme": "scheme-2",
         "background_media": "none",
         "video_position": "cover",
         "background_image_position": "cover",
@@ -395,11 +396,43 @@
         "padding-block-start": 40,
         "padding-block-end": 40
       }
+    },
+    "denaes_visual_7jNpjW": {
+      "type": "denaes-visual",
+      "name": "Denaes Visual",
+      "settings": {
+        "image_1": "shopify://shop_images/Autre_Magazine.jpg",
+        "title_1": "FWZEE",
+        "description_1": "Journal",
+        "lien_1": "shopify://pages/press",
+        "image_2": "shopify://shop_images/IMG_0988.jpg",
+        "title_2": "PRess 2",
+        "description_2": "Journal 2",
+        "lien_2": "shopify://pages/press",
+        "gap": 16
+      }
+    },
+    "denaes_visual_rbcKAT": {
+      "type": "denaes-visual",
+      "name": "Denaes Visual",
+      "settings": {
+        "image_1": "shopify://shop_images/ADOBE-RGB-HI-RES-EMILY-LIPSON-NOVEMBRE019.jpg",
+        "title_1": "Test 1",
+        "description_1": "",
+        "lien_1": "",
+        "image_2": "shopify://shop_images/ADOBE-RGB-HI-RES-EMILY-LIPSON-NOVEMBRE015.jpg",
+        "title_2": "Test 2",
+        "description_2": "",
+        "lien_2": "",
+        "gap": 16
+      }
     }
   },
   "order": [
     "main",
     "section_CPcEPM",
-    "section_TQa64y"
+    "section_TQa64y",
+    "denaes_visual_7jNpjW",
+    "denaes_visual_rbcKAT"
   ]
 }

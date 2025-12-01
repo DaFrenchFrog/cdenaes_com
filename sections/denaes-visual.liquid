@@ -4,6 +4,10 @@ assign image_1 = section.settings.image_1
 assign image_2 = section.settings.image_2
 assign title_1 = section.settings.title_1
 assign title_2 = section.settings.title_2
+assign lien_1 = section.settings.lien_1
+assign lien_2 = section.settings.lien_2
+assign description_1 = section.settings.description_1
+assign description_2 = section.settings.description_2
 assign has_two_images = false
 
 if image_1 != blank and image_2 != blank
@@ -15,6 +19,9 @@ endif
   style="--gap: {{ section.settings.gap }}px;" {{ section.shopify_attributes }}>
   {% comment %} First image {% endcomment %}
   {% if image_1 != blank %}
+  {% if lien_1 != blank %}
+    <a href="{{ lien_1 }}" class="d-visual__link">
+  {% endif %}
   <div
     class="d-visual__item{% if has_two_images %} d-visual__item--half{% endif %}">
     <div class="d-visual__image-wrapper">
@@ -33,11 +40,23 @@ endif
       <h2 class="d-visual__title-text">{{ title_1 }}</h2>
     </div>
     {% endif %}
+
+    {% if description_1 != blank %}
+    <div class="d-visual__description">
+      <p class="d-visual__description-text">{{ description_1 }}</p>
+    </div>
+    {% endif %}
   </div>
+  {% if lien_1 != blank %}
+    </a>
+  {% endif %}
   {% endif %}
 
   {% comment %} Second image {% endcomment %}
   {% if image_2 != blank %}
+  {% if lien_2 != blank %}
+    <a href="{{ lien_2 }}" class="d-visual__link">
+  {% endif %}
   <div class="d-visual__item{% if has_two_images %} d-visual__item--half{% endif %}">
     <div class="d-visual__image-wrapper">
       <img 
@@ -55,7 +74,16 @@ endif
       <h2 class="d-visual__title-text">{{ title_2 }}</h2>
     </div>
     {% endif %}
+
+    {% if description_2 != blank %}
+    <div class="d-visual__description">
+      <p class="d-visual__description-text">{{ description_2 }}</p>
+    </div>
+    {% endif %}
   </div>
+  {% if lien_2 != blank %}
+    </a>
+  {% endif %}
   {% endif %}
 </div>
 
@@ -65,7 +93,7 @@ display: flex;
 flex-direction: column;
 gap: var(--gap, 16px);
 width: 100%;
-margin: 3rem 0;
+margin: 7rem 0;
 }
 
 .d-visual__item {
@@ -99,13 +127,40 @@ font-weight: var(--font-weight-normal, 400);
 line-height: var(--line-height-normal, 1.5);
 }
 
+.d-visual__description {
+width: 100%;
+margin-top: 0.5rem;
+}
+
+.d-visual__description-text {
+margin: 0;
+font-size: 0.875rem;
+line-height: var(--line-height-normal, 1.5);
+color: rgba(var(--color-foreground), 0.7);
+}
+
+.d-visual__link {
+display: block;
+text-decoration: none;
+color: inherit;
+transition: opacity 0.2s ease;
+}
+
+.d-visual__link:hover {
+opacity: 0.6;
+}
+
+.d-visual__link .d-visual__item {
+cursor: pointer;
+}
+
 @media screen and (min-width: 750px) {
 .d-visual__container--two-items {
 flex-direction: row;
 }
 
 .d-visual__item--half {
-width: calc(50% - (var(--gap, 16px) / 2));
+width: 100%;
 flex: 0 0 calc(50% - (var(--gap, 16px) / 2));
 }
 }
@@ -132,6 +187,18 @@ flex: 0 0 calc(50% - (var(--gap, 16px) / 2));
 "info": "Optional title displayed below the first image"
 },
 {
+"type": "textarea",
+"id": "description_1",
+"label": "Description 1",
+"info": "Optional description displayed below the title"
+},
+{
+"type": "url",
+"id": "lien_1",
+"label": "Lien 1",
+"info": "Optional link that makes the entire block (image + title + description) clickable"
+},
+{
 "type": "header",
 "content": "Second Image (Optional)"
 },
@@ -146,6 +213,18 @@ flex: 0 0 calc(50% - (var(--gap, 16px) / 2));
 "id": "title_2",
 "label": "Title 2",
 "info": "Optional title displayed below the second image"
+},
+{
+"type": "textarea",
+"id": "description_2",
+"label": "Description 2",
+"info": "Optional description displayed below the title"
+},
+{
+"type": "url",
+"id": "lien_2",
+"label": "Lien 2",
+"info": "Optional link that makes the entire block (image + title + description) clickable"
 },
 {
 "type": "header",
